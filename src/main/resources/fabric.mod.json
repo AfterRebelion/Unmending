@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "unmending",
+  "version": "${version}",
+
+  "name": "Unmending",
+  "description": "Nerfs mending while still keeping it usable.",
+  "authors": [
+    "Vazkii"
+  ],
+  "contact": {
+    "homepage": "http://www.vazkii.us",
+    "sources": "https://github.com/Vazkii/Unmending/",
+    "issues": "https://github.com/Vazkii/Unmending/issues"
+  },
+
+  "license": "WTFPL",
+  "icon": "assets/unmending/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "vazkii.unmending.Unmending"
+    ]
+  },
+  "mixins": [
+    "unmending.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.8.8",
+    "minecraft": "1.15.x"
+  }
+}
