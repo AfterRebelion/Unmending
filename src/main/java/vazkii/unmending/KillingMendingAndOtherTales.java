@@ -8,6 +8,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -94,7 +96,7 @@ public class KillingMendingAndOtherTales {
 	@OnlyIn(Dist.CLIENT)
 	public static void onTooltip(ItemTooltipEvent event) {
 		TranslationTextComponent itemgotmodified = new TranslationTextComponent("unmending.repaired");
-		itemgotmodified.getStyle().setColor(TextFormatting.YELLOW);
+		itemgotmodified.mergeStyle(TextFormatting.YELLOW);
 		int repairCost = event.getItemStack().getRepairCost();
 		if (repairCost > 0) {
 			event.getToolTip().add(itemgotmodified);
