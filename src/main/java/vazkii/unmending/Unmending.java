@@ -1,13 +1,11 @@
 package vazkii.unmending;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(Unmending.MOD_ID)
-public class Unmending {
-
+public class Unmending implements ModInitializer {
 	// Mod Constants
 	public static final String MOD_ID = "unmending";
 	public static final String MOD_NAME = "Unmending";
@@ -15,16 +13,16 @@ public class Unmending {
 	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
 	public static final String PREFIX = MOD_ID + ":";
 
-	public Unmending() {
-		// Register the setup method for modloading (Prev preInit)
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+	@Override
+	public void onInitialize() {
+		// This code runs as soon as Minecraft is in a mod-load-ready state.
+		// However, some things (like resources) may still be uninitialized.
+		// Proceed with mild caution.
 
-		// Register ourselves for server and other game events we are interested in
-		MinecraftForge.EVENT_BUS.register(this);
+		System.out.println("Hello Fabric world!");
+		ItemTooltipCallback.EVENT.register(IsMendedEvent::getTooltip);
 	}
 
-	public void setup(final FMLCommonSetupEvent event) {
-		MinecraftForge.EVENT_BUS.register(KillingMendingAndOtherTales.class);
-	}
-	
+	public static final Logger LOGGER = LogManager.getLogger(Unmending.MOD_ID);
+
 }
