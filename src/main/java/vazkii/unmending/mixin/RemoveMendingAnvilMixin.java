@@ -1,17 +1,17 @@
 package vazkii.unmending.mixin;
 
-
-import net.minecraft.container.AnvilContainer;
-import net.minecraft.container.Container;
-import net.minecraft.container.ContainerType;
-import net.minecraft.container.Property;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.screen.ForgingScreenHandler;
+import net.minecraft.screen.Property;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.ScreenHandlerType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,22 +21,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
-@Mixin(AnvilContainer.class)
-public abstract class RemoveMendingAnvilMixin extends Container {
+@Mixin(AnvilScreenHandler.class)
+public abstract class RemoveMendingAnvilMixin extends ForgingScreenHandler {
 
-	@Shadow @Final private Inventory inventory;
-	@Shadow @Final private Inventory result;
 	@Shadow @Final private Property levelCost;
 
-	protected RemoveMendingAnvilMixin(ContainerType<?> type, int syncId) {
-		super(type, syncId);
+	public RemoveMendingAnvilMixin(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+		super(type, syncId, playerInventory, context);
 	}
 
 	@Inject(method = "updateResult", at = @At(value = "HEAD"), cancellable = true)
 	public void onAnvilUpdate(CallbackInfo info) {
-		ItemStack left = this.inventory.getInvStack(0);
-		ItemStack right = this.inventory.getInvStack(1);
-		ItemStack out = this.result.getInvStack(0);
+		ItemStack left = this.input.getStack(0);
+		ItemStack right = this.input.getStack(1);
+		ItemStack out = this.output.getStack(0);
 
 		if (out.isEmpty() && (left.isEmpty() || right.isEmpty())) {
 			return;
@@ -44,8 +42,8 @@ public abstract class RemoveMendingAnvilMixin extends Container {
 
 		boolean isMended = false;
 
-		Map<Enchantment, Integer> enchLeft = EnchantmentHelper.getEnchantments(left);
-		Map<Enchantment, Integer> enchRight = EnchantmentHelper.getEnchantments(right);
+		Map<Enchantment, Integer> enchLeft = EnchantmentHelper.get(left);
+		Map<Enchantment, Integer> enchRight = EnchantmentHelper.get(right);
 
 		if (enchLeft.containsKey(Enchantments.MENDING) || enchRight.containsKey(Enchantments.MENDING)) {
 			if (left.getItem() == right.getItem()) {
@@ -66,7 +64,7 @@ public abstract class RemoveMendingAnvilMixin extends Container {
 				out.setTag(new CompoundTag());
 			}
 
-			Map<Enchantment, Integer> enchOutput = EnchantmentHelper.getEnchantments(out);
+			Map<Enchantment, Integer> enchOutput = EnchantmentHelper.get(out);
 			enchOutput.putAll(enchRight);
 			enchOutput.remove(Enchantments.MENDING);
 			EnchantmentHelper.set(enchOutput, out);
@@ -76,7 +74,7 @@ public abstract class RemoveMendingAnvilMixin extends Container {
 				out.setDamage(0);
 			}
 
-			this.result.setInvStack(0, out);
+			this.output.setStack(0, out);
 			if (this.levelCost.get() == 0) {
 				this.levelCost.set(1);
 			}
