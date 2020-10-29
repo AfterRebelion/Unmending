@@ -21,6 +21,9 @@
   "entrypoints": {
     "main": [
       "vazkii.unmending.Unmending"
+    ],
+    "client": [
+      "vazkii.unmending.ModClient"
     ]
   },
   "mixins": [

@@ -1,5 +1,6 @@
 package vazkii.unmending;
 
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ public class Unmending implements ModInitializer {
 	public static final String BUILD = "GRADLE:BUILD";
 	public static final String VERSION = "GRADLE:VERSION-" + BUILD;
 	public static final String PREFIX = MOD_ID + ":";
+	public static final Logger LOGGER = LogManager.getLogger(Unmending.MOD_ID);
 
 	@Override
 	public void onInitialize() {
@@ -19,10 +21,6 @@ public class Unmending implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		System.out.println("Hello Fabric world!");
-		ItemTooltipCallback.EVENT.register(IsMendedEvent::getTooltip);
+		LOGGER.info("Hello Fabric world!");
 	}
-
-	public static final Logger LOGGER = LogManager.getLogger(Unmending.MOD_ID);
-
 }
