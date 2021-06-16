@@ -8,8 +8,6 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,7 +20,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Map;
 
-@SuppressWarnings("unused")
 public class KillingMendingAndOtherTales {
 
 	// stolen from King Lemming thanks mate
