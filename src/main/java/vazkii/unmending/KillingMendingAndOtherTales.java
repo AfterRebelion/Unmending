@@ -28,10 +28,10 @@ public class KillingMendingAndOtherTales {
 		PlayerEntity player = event.getPlayer();
 		ExperienceOrbEntity orb = event.getOrb();
 
-		player.xpCooldown = 2;
-		player.onItemPickup(orb, 1);
-		if (orb.xpValue > 0) {
-			player.giveExperiencePoints(orb.xpValue);
+		player.takeXpDelay = 2;
+		player.take(orb, 1);
+		if (orb.value > 0) {
+			player.giveExperiencePoints(orb.value);
 		}
 
 		orb.remove();
@@ -78,8 +78,8 @@ public class KillingMendingAndOtherTales {
 			EnchantmentHelper.setEnchantments(enchOutput, out);
 
 			out.setRepairCost(0);
-			if(out.isDamageable()) {
-				out.setDamage(0);
+			if(out.isDamageableItem()) {
+				out.setDamageValue(0);
 			}
 
 			event.setOutput(out);
@@ -93,8 +93,8 @@ public class KillingMendingAndOtherTales {
 	@OnlyIn(Dist.CLIENT)
 	public static void onTooltip(ItemTooltipEvent event) {
 		TranslationTextComponent itemgotmodified = new TranslationTextComponent("unmending.repaired");
-		itemgotmodified.mergeStyle(TextFormatting.YELLOW);
-		int repairCost = event.getItemStack().getRepairCost();
+		itemgotmodified.withStyle(TextFormatting.YELLOW);
+		int repairCost = event.getItemStack().getBaseRepairCost();
 		if (repairCost > 0) {
 			event.getToolTip().add(itemgotmodified);
 		}
